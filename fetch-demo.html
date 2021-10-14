@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Fetch Demo</title>
+	</head>
+	<body>
+		<h1>Let's fetch!!</h1>
+		<p id="data-display"></p>
+
+		<script>
+			const fetchData = async () => {
+				const data = await fetch("https://api.coindesk.com/v1/bpi/currentprice.json");
+				const price_data = await data.json();
+				console.log(price_data)
+			}
+
+			const data = fetchData();
+			console.log(data)
+			console.log("Other stuff...")
+			// .then((data) => data.json())
+			// .then((price_data) => document.getElementById("data-display").innerHTML = `Bitcpin in USD: $${price_data.bpi.USD.rate}` )
+
+			const sendData = async (url, data) => {
+				const postResults = await fetch(url, {
+					method: "POST", // *GET, POST, PUT, DELETE, etc.
+					mode: "cors", // no-cors, *cors, same-origin
+					cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+					credentials: "same-origin", // include, *same-origin, omit
+					headers: {
+						"Content-Type": "application/json",
+						// 'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					redirect: "follow", // manual, *follow, error
+					referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+					body: JSON.stringify(data), // body data type must match "Content-Type" header
+				});
+				const result = await postResults.json();
+				// console.log(result);
+				return result;
+			};
+
+			const prom = sendData("https://jsonplaceholder.typicode.com/posts", {
+				userId: 1,
+				id: 1,
+				title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+				body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",
+			}).then((res) => console.log(res));
+
+			console.log(prom);
+		</script>
+		
+	</script>
+	</body>
+</html>
